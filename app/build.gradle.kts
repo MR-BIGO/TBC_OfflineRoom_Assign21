@@ -26,7 +26,7 @@ android {
             buildConfigField(
                 "String",
                 "API_URL",
-                "\"https://run.mocky.io/v3/1775d634-92dc-4c32-ae71-1707b8cfee41/\""
+                "\"https://run.mocky.io/v3/\""
             )
         }
         release {
@@ -38,7 +38,7 @@ android {
             buildConfigField(
                 "String",
                 "API_URL",
-                "\"https://run.mocky.io/v3/1775d634-92dc-4c32-ae71-1707b8cfee41/\""
+                "\"https://run.mocky.io/v3/\""
             )
         }
     }
