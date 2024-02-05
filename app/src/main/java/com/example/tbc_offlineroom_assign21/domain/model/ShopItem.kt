@@ -5,5 +5,6 @@ data class ShopItem(
     val img: String,
     val price: String,
     val title: String,
-    val isFavourite: Boolean
+    val isFavourite: Boolean,
+    val category: String
 )

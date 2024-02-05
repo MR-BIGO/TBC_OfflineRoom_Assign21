@@ -10,5 +10,6 @@ fun ShopItemEntity.toDomain() : ShopItem{
         price = price,
         title = title,
         isFavourite = favorite,
+        category = category
     )
 }

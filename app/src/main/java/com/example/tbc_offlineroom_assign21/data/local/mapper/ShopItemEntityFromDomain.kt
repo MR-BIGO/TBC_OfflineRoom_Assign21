@@ -9,6 +9,7 @@ fun ShopItem.fromDomain() : ShopItemEntity{
         img = img,
         price = price,
         title = title,
-        favorite = isFavourite
+        favorite = isFavourite,
+        category = category
     )
 }

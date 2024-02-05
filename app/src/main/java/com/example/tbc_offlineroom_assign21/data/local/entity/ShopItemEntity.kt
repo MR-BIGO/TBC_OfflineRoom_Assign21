@@ -12,5 +12,6 @@ data class ShopItemEntity(
     val price: String,
     val title: String,
     @ColumnInfo(name = "Favourite")
-    val favorite: Boolean
+    val favorite: Boolean,
+    val category: String
 )

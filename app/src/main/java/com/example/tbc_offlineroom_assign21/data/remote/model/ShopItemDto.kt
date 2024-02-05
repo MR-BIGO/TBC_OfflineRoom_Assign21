@@ -9,5 +9,6 @@ data class ShopItemDto(
     val price: String,
     val title: String,
     @Json(name = "favorite")
-    val isFavourite: Boolean
+    val isFavourite: Boolean,
+    val category: String
 )

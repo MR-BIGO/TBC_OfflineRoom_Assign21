@@ -9,6 +9,7 @@ fun ShopItemDto.toDomain(): ShopItem {
         img = img,
         price = price,
         title = title,
-        isFavourite = isFavourite
+        isFavourite = isFavourite,
+        category = category
     )
 }

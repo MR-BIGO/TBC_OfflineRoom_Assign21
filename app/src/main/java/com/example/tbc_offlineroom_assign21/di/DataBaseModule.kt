@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.example.tbc_offlineroom_assign21.data.local.dao.ShopItemDao
 import com.example.tbc_offlineroom_assign21.data.local.database.ItemsDatabase
+import com.example.tbc_offlineroom_assign21.data.local.database.ItemsDatabaseMigration1to2
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,7 +22,7 @@ object DataBaseModule {
         Room.databaseBuilder(
             context, ItemsDatabase::class.java, "ITEMS_DATABASE"
         )
-            .fallbackToDestructiveMigration()
+            .addMigrations(ItemsDatabaseMigration1to2.MIGRATION_1_2)
             .build()
 
     @Provides
