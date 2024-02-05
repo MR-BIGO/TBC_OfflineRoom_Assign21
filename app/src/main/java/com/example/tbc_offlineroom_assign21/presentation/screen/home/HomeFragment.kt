@@ -1,5 +1,7 @@
 package com.example.tbc_offlineroom_assign21.presentation.screen.home
 
+import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -46,11 +48,21 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     }
 
     private fun listeners() {
-        sectionsRvAdapter.itemOnClick = {viewModel.onEvent(HomeEvents.SectionItemPressed(it))}
-        shopItemsRvAdapter.itemOnClick = {viewModel.onEvent(HomeEvents.HeartPressed(it))}
+        sectionsRvAdapter.itemOnClick = { viewModel.onEvent(HomeEvents.SectionItemPressed(it)) }
+        shopItemsRvAdapter.itemOnClick = { viewModel.onEvent(HomeEvents.HeartPressed(it)) }
+        binding.btnRefresh.setOnClickListener {
+            viewModel.onEvent(HomeEvents.RefreshPressed)
+        }
     }
 
-    private fun handleState(state: HomeState) {
+    private fun handleState(state: HomeState) = with(binding) {
+        progressBar.visibility = if (state.loading) View.VISIBLE else View.GONE
+
+        state.error?.let {
+            Toast.makeText(context, state.error, Toast.LENGTH_SHORT).show()
+            viewModel.onEvent(HomeEvents.ResetError)
+        }
+
         state.sections?.let {
             sectionsRvAdapter.setData(state.sections)
             sectionsRvAdapter.notifyItemRangeChanged(0, state.sections.size)
@@ -59,6 +71,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         state.data?.let {
             shopItemsRvAdapter.setData(state.data)
             shopItemsRvAdapter.notifyItemRangeChanged(0, state.data.size)
+
+            if (it.isEmpty()){
+                tvNoItems.visibility = View.VISIBLE
+                btnRefresh.visibility = View.VISIBLE
+            } else {
+                tvNoItems.visibility = View.GONE
+                btnRefresh.visibility = View.GONE
+            }
         }
     }
 

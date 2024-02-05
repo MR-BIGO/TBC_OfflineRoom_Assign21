@@ -2,4 +2,9 @@
     <string name="app_name">TBC_OfflineRoom_Assign21</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="all">All</string>
+    <string name="party">Party</string>
+    <string name="camping">Camping</string>
+    <string name="casual">Casual</string>
+    <string name="couldn_t_load_items_try_again">Couldn\'t load items. Try again</string>
 </resources>

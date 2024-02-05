@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tbc_offlineroom_assign21.data.Resource
 import com.example.tbc_offlineroom_assign21.domain.use_case.GetRemoteShopItemsUseCase
+import com.example.tbc_offlineroom_assign21.domain.use_case.GetShopItemsUseCase
 import com.example.tbc_offlineroom_assign21.presentation.event.home.HomeEvents
 import com.example.tbc_offlineroom_assign21.presentation.mapper.toPresentation
 import com.example.tbc_offlineroom_assign21.presentation.model.Section
@@ -17,7 +18,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeFragmentViewModel @Inject constructor(private val getItems: GetRemoteShopItemsUseCase) :
+class HomeFragmentViewModel @Inject constructor(private val getItems: GetShopItemsUseCase) :
     ViewModel() {
 
     private val _homeState = MutableStateFlow(HomeState())
@@ -32,6 +33,8 @@ class HomeFragmentViewModel @Inject constructor(private val getItems: GetRemoteS
         when (event) {
             is HomeEvents.SectionItemPressed -> selectSection(event.id)
             is HomeEvents.HeartPressed -> heartPressed(event.id)
+            is HomeEvents.ResetError -> setError(null)
+            is HomeEvents.RefreshPressed -> setUpShopItems()
         }
     }
 
@@ -77,10 +80,17 @@ class HomeFragmentViewModel @Inject constructor(private val getItems: GetRemoteS
                         }
                     }
 
-                    is Resource.Loading -> {}
-                    is Resource.Error -> {}
+                    is Resource.Loading -> {
+                        _homeState.update { currentState -> currentState.copy(loading = it.loading) }
+                    }
+
+                    is Resource.Error -> setError(it.error)
                 }
             }
         }
+    }
+
+    private fun setError(error: String?) {
+        _homeState.update { currentState -> currentState.copy(error = error) }
     }
 }

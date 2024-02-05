@@ -5,5 +5,7 @@ import com.example.tbc_offlineroom_assign21.presentation.model.ShopItemPres
 
 data class HomeState (
     val sections: List<Section>? = null,
-    val data: List<ShopItemPres>? = null
+    val data: List<ShopItemPres>? = null,
+    val loading: Boolean = false,
+    val error: String? = null
 )
