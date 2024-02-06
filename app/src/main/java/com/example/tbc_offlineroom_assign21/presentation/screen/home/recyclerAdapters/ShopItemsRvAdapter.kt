@@ -3,22 +3,25 @@ package com.example.tbc_offlineroom_assign21.presentation.screen.home.recyclerAd
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.tbc_offlineroom_assign21.R
 import com.example.tbc_offlineroom_assign21.databinding.ShopItemLayoutBinding
 import com.example.tbc_offlineroom_assign21.presentation.model.ShopItemPres
 
-class ShopItemsRvAdapter : RecyclerView.Adapter<ShopItemsRvAdapter.ShopItemsViewHolder>() {
+class ShopItemsRvAdapter :
+    ListAdapter<ShopItemPres, ShopItemsRvAdapter.ShopItemsViewHolder>(DiffCallback())
+{
 
-    private var items: List<ShopItemPres> = listOf()
     var itemOnClick: ((Int) -> Unit)? = null
 
     inner class ShopItemsViewHolder(private val binding: ShopItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(position: Int) = with(binding) {
-            val item = items[position]
+        fun bind() = with(binding) {
+            val item = currentList[adapterPosition]
 
             tvTitle.text = item.title
             tvPrice.text = item.price
@@ -43,16 +46,16 @@ class ShopItemsRvAdapter : RecyclerView.Adapter<ShopItemsRvAdapter.ShopItemsView
             }
         }
 
-        fun listeners(position: Int) = with(binding) {
+        fun listeners() = with(binding) {
             ivHeart.setOnClickListener {
-                itemOnClick!!(items[position].id)
-                notifyItemChanged(position)
+                itemOnClick!!(currentList[adapterPosition].id)
+                notifyItemChanged(adapterPosition)
             }
         }
     }
 
-    fun setData(data: List<ShopItemPres>){
-        items = data
+    fun setData(data: List<ShopItemPres>) {
+        submitList(data)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShopItemsViewHolder {
@@ -65,10 +68,18 @@ class ShopItemsRvAdapter : RecyclerView.Adapter<ShopItemsRvAdapter.ShopItemsView
         )
     }
 
-    override fun getItemCount() = items.size
-
     override fun onBindViewHolder(holder: ShopItemsViewHolder, position: Int) {
-        holder.bind(position)
-        holder.listeners(position)
+        holder.bind()
+        holder.listeners()
+    }
+
+    private class DiffCallback : DiffUtil.ItemCallback<ShopItemPres>() {
+        override fun areItemsTheSame(oldItem: ShopItemPres, newItem: ShopItemPres): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: ShopItemPres, newItem: ShopItemPres): Boolean {
+            return oldItem == newItem
+        }
     }
 }

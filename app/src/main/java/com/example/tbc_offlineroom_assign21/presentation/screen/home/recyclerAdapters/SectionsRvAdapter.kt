@@ -11,7 +11,7 @@ import com.example.tbc_offlineroom_assign21.presentation.model.Section
 class SectionsRvAdapter : RecyclerView.Adapter<SectionsRvAdapter.SectionsRvViewHolder>() {
 
     private var sections: List<Section> = listOf()
-    var itemOnClick: ((Int) -> Unit)? = null
+    var itemOnClick: ((Int, String) -> Unit)? = null
     private var prevItem = 0
 
     inner class SectionsRvViewHolder(private val binding: SectionItemLayoutBinding) :
@@ -55,7 +55,7 @@ class SectionsRvAdapter : RecyclerView.Adapter<SectionsRvAdapter.SectionsRvViewH
         fun listeners(position: Int) = with(binding) {
 
             root.setOnClickListener {
-                itemOnClick!!(sections[position].id)
+                itemOnClick!!(sections[position].id, sections[position].title)
                 notifyItemChanged(position)
                 notifyItemChanged(prevItem)
                 prevItem = position

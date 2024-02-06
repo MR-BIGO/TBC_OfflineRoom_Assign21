@@ -48,7 +48,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     }
 
     private fun listeners() {
-        sectionsRvAdapter.itemOnClick = { viewModel.onEvent(HomeEvents.SectionItemPressed(it)) }
+        sectionsRvAdapter.itemOnClick = {id, filter ->  viewModel.onEvent(HomeEvents.SectionItemPressed(id, filter)) }
         shopItemsRvAdapter.itemOnClick = { viewModel.onEvent(HomeEvents.HeartPressed(it)) }
         binding.btnRefresh.setOnClickListener {
             viewModel.onEvent(HomeEvents.RefreshPressed)
@@ -70,7 +70,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
         state.data?.let {
             shopItemsRvAdapter.setData(state.data)
-            shopItemsRvAdapter.notifyItemRangeChanged(0, state.data.size)
+          //  shopItemsRvAdapter.notifyItemRangeChanged(0, state.data.size)
 
             if (it.isEmpty()){
                 tvNoItems.visibility = View.VISIBLE

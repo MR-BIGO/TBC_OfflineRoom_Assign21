@@ -6,6 +6,7 @@ import com.example.tbc_offlineroom_assign21.data.local.mapper.toDomain
 import com.example.tbc_offlineroom_assign21.domain.model.ShopItem
 import com.example.tbc_offlineroom_assign21.domain.repository.ILocalShopItemsRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -17,6 +18,10 @@ class ShopItemDaoImpl @Inject constructor(private val dao: ShopItemDao) :
 
     override suspend fun insertItems(items: List<ShopItem>) = withContext(Dispatchers.Default) {
         dao.insert(items.map { it.fromDomain() })
+    }
+
+    override suspend fun getItemsFilter(filter: String): List<ShopItem> {
+        return dao.getItemsFilter(filter).map { it.toDomain() }
     }
 
 }

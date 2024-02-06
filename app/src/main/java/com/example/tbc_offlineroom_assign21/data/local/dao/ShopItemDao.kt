@@ -16,4 +16,7 @@ interface ShopItemDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(item: List<ShopItemEntity>)
+
+    @Query("SELECT * FROM items WHERE category LIKE :filter")
+    suspend fun getItemsFilter(filter: String): List<ShopItemEntity>
 }

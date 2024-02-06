@@ -6,4 +6,6 @@ interface ILocalShopItemsRepository {
     suspend fun getItems(): List<ShopItem>
 
     suspend fun insertItems(items:List<ShopItem>)
+
+    suspend fun getItemsFilter(filter: String): List<ShopItem>
 }
